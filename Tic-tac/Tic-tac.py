@@ -1,4 +1,5 @@
 # Создайте программу для игры в ""Крестики-нолики"".
+
 import logging, mytoken
 import datetime
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -44,8 +45,7 @@ def check_status(id_user: int):
             game_static[id_user] = data[str(id_user)]
         else: 
             game_static[id_user] = STATISTICS_EMPTY
-    print(game_status)
-    print(game_static)
+    
 
 
 def builde_answer(id_user: int, strings: list):
@@ -67,7 +67,7 @@ def great_field(number: list):
     return [[InlineKeyboardButton(text=TOKENEMP if number[i+j] in VALID else number[i+j], callback_data=str(i+j)) for i in range(3)] for j in [0, 3, 6]]
 
 
-async def start_game(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start_game(update: Update, context: ContextTypes.DEFAULT_TYPE):    
     name = update.message.from_user
     logger.info(f"User {name.first_name} started the game.")
     check_status(name.id)
@@ -194,6 +194,10 @@ def checkwin(board: list, mark: str):
         if board[each[0]] == board[each[1]] == board[each[2]] == mark:
             return True
     return False
+
+
+
+
 
 
 if __name__ == '__main__':
