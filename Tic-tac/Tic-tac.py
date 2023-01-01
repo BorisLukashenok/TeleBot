@@ -144,7 +144,7 @@ def game_round(data):
             return 0, builde_answer(data.from_user.id, strings=[
             f"Ничья {data.from_user.first_name}", "Ты старался \N{RAISED FIST}"]) 
     return 5, builde_answer(data.from_user.id, strings=[
-        f'Шевели мозгом {data.from_user.first_name}', 'Ваш ход \N{PIG}'])
+        f'Шевели мозгом {data.from_user.first_name}', 'Твой ход \N{SNOWMAN WITHOUT SNOW}'])
     
 
 
@@ -233,8 +233,7 @@ def checkwin(board: list, mark: str):
 if __name__ == '__main__':
     
     app = ApplicationBuilder().token(mytoken.MYTOKEN).build()
-    conv_handler = ConversationHandler(
-        
+    conv_handler = ConversationHandler(        
         entry_points=[CommandHandler("start", start_game)],
         states={
             START_ROUTES: [
