@@ -162,7 +162,7 @@ def bot_ai(board: list):
         if board[key] in VALID:
             temp = board[key]
             board[key] = TOKENBOT
-            score = minimax(board, False) # параметр False передастся функции minimax. 
+            score = minimax(board, False) 
             board[key] = temp
             if score > best_score:
                 best_score = score
@@ -173,17 +173,13 @@ def minimax(board, is_maximizing):
     """Функция по принципу minimax. 
 
     - ### https://en.wikipedia.org/wiki/Minimax"""
-
-    # Если вернулось значени True для бота - возвращаем 1
-    if checkwin(board, TOKENBOT):
-        return 1
-    # Если вернулось значение True для пользователя - возвращаем -1
-    elif checkwin(board, TOKENPLAYER):
-        return -1
-    # Если вернулась ничья - возвращаем 0
-    elif check_draw(board):
-        return 0
     
+    if checkwin(board, TOKENBOT):
+        return 1    
+    elif checkwin(board, TOKENPLAYER):
+        return -1   
+    elif check_draw(board):
+        return 0    
     if is_maximizing:
         best_score = -8
         token = TOKENBOT
