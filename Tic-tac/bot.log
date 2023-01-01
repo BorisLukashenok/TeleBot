@@ -1,4 +1,4 @@
-2022-12-31 12:02:56,153 - telegram.ext._application - INFO - Application started
-2022-12-31 12:03:58,781 - __main__ - INFO - User Jn started the game.
-2022-12-31 12:05:24,661 - telegram.ext._application - INFO - Application is stopping. This might take a moment.
-2022-12-31 12:05:24,661 - telegram.ext._application - INFO - Application.stop() complete
+2023-01-01 01:44:42,581 - telegram.ext._application - INFO - Application started
+2023-01-01 01:44:54,472 - __main__ - INFO - User Jn started the game.
+2023-01-01 01:45:20,077 - telegram.ext._application - INFO - Application is stopping. This might take a moment.
+2023-01-01 01:45:20,077 - telegram.ext._application - INFO - Application.stop() complete

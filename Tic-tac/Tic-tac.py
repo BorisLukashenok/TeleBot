@@ -7,17 +7,17 @@ from telegram.ext import ApplicationBuilder, CallbackQueryHandler, CommandHandle
 from random import randint as rnd
 from IOData import save_static, load_static
 
-logging.basicConfig(filename='bot.log', filemode='w',
+logging.basicConfig(filename='bot.log', filemode='w', encoding='utf-8',
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Символы для поля
-TOKENEMP = ' '
-TOKENBOT = 'O'
-TOKENPLAYER = 'X'
+TOKENEMP = '\N{WRAPPED PRESENT}'
+TOKENBOT = '\N{GRINNING FACE WITH STAR EYES}'
+TOKENPLAYER = '\N{SNOWFLAKE}\N{VARIATION SELECTOR-16}'
 
 # Болванка для сообщений
-ANSWER_SPLIT = ('\N{BEATING HEART}Рейтинг\N{BEATING HEART}', 'Выигрышей: ', 'Проигрышей: ')
+ANSWER_SPLIT = ('\N{TROPHY}Рейтинг\N{TROPHY}', 'Выигрышей: ', 'Проигрышей: ')
 
 
 # Пустая статистика, начальное игровое поле и выигрышные комбинации
@@ -44,7 +44,7 @@ def check_status(id_user: int):
         if str(id_user) in data.keys():
             game_static[id_user] = data[str(id_user)]
         else: 
-            game_static[id_user] = STATISTICS_EMPTY
+            game_static[id_user] = STATISTICS_EMPTY.copy()
     
 
 
@@ -72,7 +72,7 @@ async def start_game(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info(f"User {name.first_name} started the game.")
     check_status(name.id)
     answer = builde_answer(
-        name.id, strings=[f'Привет {name.first_name}', 'Ваш ход \N{PIG}'])    
+        name.id, strings=[f'Привет {name.first_name}', 'Твой ход \N{SNOWMAN WITHOUT SNOW}'])    
     await update.message.reply_text(answer, reply_markup=InlineKeyboardMarkup(great_field(game_status[name.id])))
     
 
