@@ -116,8 +116,8 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def end(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
-    await query.answer()    
-    await query.edit_message_text(text="Спасибо за игру.\nПриходи есчо.")
+    await query.answer() 
+    await query.edit_message_text(text=builde_answer(query.from_user.id,["Спасибо за игру.","Приходи есчо."]))
     return ConversationHandler.END
 
 
