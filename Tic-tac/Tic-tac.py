@@ -20,6 +20,8 @@ TOKENPLAYER = '\N{SNOWFLAKE}\N{VARIATION SELECTOR-16}'
 ANSWER_SPLIT = ('\N{TROPHY}Рейтинг\N{TROPHY}', 'Выигрышей: ', 'Проигрышей: ')
 
 START_ROUTES, END_ROUTES = range(2)
+NEXT_MOVE, END_ROUND = range(2)
+
 # Пустая статистика, начальное игровое поле и выигрышные комбинации
 STATISTICS_EMPTY = {'win': 0, 'lost': 0, 'lastgame': None}
 POLE_EMPTY = (list(map(str, range(0, 9))))
@@ -99,7 +101,7 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text(answer, reply_markup=InlineKeyboardMarkup(great_field(game_status[query.from_user.id])))
     else:
         result, answer = game_round(query)
-        if result == 5:                    
+        if result == NEXT_MOVE:                    
             await query.edit_message_text(answer, reply_markup=InlineKeyboardMarkup(great_field(game_status[query.from_user.id])))
             return START_ROUTES
         else:
@@ -125,25 +127,25 @@ def game_round(data):
     game_status[data.from_user.id][int(data.data)] = TOKENPLAYER    
     if checkwin(game_status[data.from_user.id], TOKENPLAYER):        
         game_static[data.from_user.id]['win'] += 1
-        return 1, builde_answer(data.from_user.id, strings=[
+        return END_ROUND, builde_answer(data.from_user.id, strings=[
             f'Ты победил {data.from_user.first_name}', 'Молодец \N{VICTORY HAND}'])
     elif check_draw (game_status[data.from_user.id]):        
         game_static[data.from_user.id]['win'] += 0.5
         game_static[data.from_user.id]['lost'] += 0.5
-        return 0, builde_answer(data.from_user.id, strings=[
+        return END_ROUND, builde_answer(data.from_user.id, strings=[
             f"Ничья {data.from_user.first_name}", "Ты старался \N{RAISED FIST}"])
     else:
         game_status[data.from_user.id][bot_ai(game_status[data.from_user.id])] = TOKENBOT        
         if checkwin(game_status[data.from_user.id], TOKENBOT):            
             game_static[data.from_user.id]['lost'] += 1
-            return -1, builde_answer(data.from_user.id, strings=[
+            return END_ROUND, builde_answer(data.from_user.id, strings=[
                 f'Ты лузер {data.from_user.first_name}', 'А я крут \N{DARK SUNGLASSES}'])
         elif check_draw (game_status[data.from_user.id]):
             game_static[data.from_user.id]['win'] += 0.5
             game_static[data.from_user.id]['lost'] += 0.5
-            return 0, builde_answer(data.from_user.id, strings=[
+            return END_ROUND, builde_answer(data.from_user.id, strings=[
             f"Ничья {data.from_user.first_name}", "Ты старался \N{RAISED FIST}"]) 
-    return 5, builde_answer(data.from_user.id, strings=[
+    return NEXT_MOVE, builde_answer(data.from_user.id, strings=[
         f'Шевели мозгом {data.from_user.first_name}', 'Твой ход \N{SNOWMAN WITHOUT SNOW}'])
     
 
@@ -230,7 +232,7 @@ if __name__ == '__main__':
     
     app = ApplicationBuilder().token(mytoken.MYTOKEN).build()
     conv_handler = ConversationHandler(        
-        entry_points=[CommandHandler("start", start_game)],
+        entry_points=[CommandHandler("start", start_game)],        
         states={
             START_ROUTES: [
                 CallbackQueryHandler(buttons, pattern="[0-8]"),                
